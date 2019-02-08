@@ -10,32 +10,26 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.github.gerivansantos.dto.CategoriaDTO;
 import com.github.gerivansantos.dto.ClienteDTO;
-import com.github.gerivansantos.models.Categoria;
 import com.github.gerivansantos.models.Cliente;
-import com.github.gerivansantos.repositories.CategoriaRepository;
+import com.github.gerivansantos.models.Cliente;
+import com.github.gerivansantos.repositories.ClienteRepository;
 import com.github.gerivansantos.services.exception.DataIntegrityException;
 import com.github.gerivansantos.services.exception.ObjectNotFoundException;
 
 
 @Service
-public class CategoriaService {
+public class ClienteService {
 	
 	@Autowired
-	private CategoriaRepository repo;
+	private ClienteRepository repo;
 	
-	public Categoria find(Integer id){
-		Optional<Categoria> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
+	public Cliente find(Integer id){
+		Optional<Cliente> obj = repo.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
-
-	public Categoria insert(Categoria obj) {
-		obj.setId(null);
-		return repo.save(obj);
-	}
-
-	public Categoria update(Categoria obj) {
+	
+	public Cliente update(Cliente obj) {
 		find(obj.getId());
 		return repo.save(obj);
 	}
@@ -45,28 +39,19 @@ public class CategoriaService {
 		try {			
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+			throw new DataIntegrityException("Não é possível excluir uma cliente que possui produtos");
 		}
 				
 	}
 
-	public List<Categoria> findAll() {		
+	public List<Cliente> findAll() {		
 		return repo.findAll();
 	}
 	
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
-	}
-	
-	public Categoria fromDTO(CategoriaDTO objDTO) {
-		return new Categoria(objDTO.getId(), objDTO.getNome());
-	}
-	
-	public Cliente fromDTO(ClienteDTO objDTO) {
-		throw new UnsupportedOperationException();
-	}
-	
+	}	
 	
 
 }
