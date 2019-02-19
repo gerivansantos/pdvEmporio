@@ -2,36 +2,40 @@ package com.github.gerivansantos.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.github.gerivansantos.models.Produto;
 
-public class ProdutoDTO implements Serializable {
+public class ProdutoNewDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	
+	//@NotEmpty(message="Preenchimento Obrigatório")
+	//@Length(min=5, max=120, message="O tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
+	
+	//@NotEmpty(message="Preenchimento Obrigatório")
 	private Double preco;
+	
+	//@NotEmpty(message="Preenchimento Obrigatório")
 	private float quantidade;
+	
+	//@NotEmpty(message="Preenchimento Obrigatório")
 	private String unidadeMedida;
 	
-	public ProdutoDTO() {
+	public ProdutoNewDTO() {
 		
 	}
 	
-	public ProdutoDTO(Produto obj) {
-		id = obj.getId();
+	public ProdutoNewDTO(Produto obj) {
 		nome = obj.getNome();
 		preco = obj.getPreco();		
 		quantidade = (obj.getEstoque() == null) ? 0 : obj.getEstoque().getQuantidade();
-		unidadeMedida = (obj.getEstoque() == null) ? "" : obj.getEstoque().getUnidadeMedida();
+		unidadeMedida = (obj.getEstoque() == null) ? "UND" : obj.getEstoque().getUnidadeMedida();
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
 
 	public String getNome() {
 		return nome;

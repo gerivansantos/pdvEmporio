@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,6 +41,9 @@ public class Produto implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy="id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
+	
+	@OneToOne(cascade=CascadeType.ALL, mappedBy="produto")
+	private Estoque estoque;
 	
 	public Produto() {
 		
@@ -98,6 +103,14 @@ public class Produto implements Serializable {
 
 	public void setItens(Set<ItemPedido> itens) {
 		this.itens = itens;
+	}	
+
+	public Estoque getEstoque() {
+		return estoque;
+	}
+
+	public void setEstoque(Estoque estoque) {
+		this.estoque = estoque;
 	}
 
 	@Override

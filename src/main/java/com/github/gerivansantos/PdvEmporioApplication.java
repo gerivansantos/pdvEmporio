@@ -2,6 +2,7 @@ package com.github.gerivansantos;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,6 +14,7 @@ import com.github.gerivansantos.models.Cidade;
 import com.github.gerivansantos.models.Cliente;
 import com.github.gerivansantos.models.Endereco;
 import com.github.gerivansantos.models.Estado;
+import com.github.gerivansantos.models.Estoque;
 import com.github.gerivansantos.models.ItemPedido;
 import com.github.gerivansantos.models.Pagamento;
 import com.github.gerivansantos.models.PagamentoComBoleto;
@@ -26,6 +28,7 @@ import com.github.gerivansantos.repositories.CidadeRepository;
 import com.github.gerivansantos.repositories.ClienteRepository;
 import com.github.gerivansantos.repositories.EnderecoRepository;
 import com.github.gerivansantos.repositories.EstadoRepository;
+import com.github.gerivansantos.repositories.EstoqueRepository;
 import com.github.gerivansantos.repositories.ItemPedidoRepository;
 import com.github.gerivansantos.repositories.PagamentoRepository;
 import com.github.gerivansantos.repositories.PedidoRepository;
@@ -52,7 +55,8 @@ public class PdvEmporioApplication implements CommandLineRunner {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;	
-	
+	@Autowired
+	private EstoqueRepository estoqueRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(PdvEmporioApplication.class, args);
@@ -81,6 +85,10 @@ public class PdvEmporioApplication implements CommandLineRunner {
 		Produto p10 = new Produto(null, "Pendente", 180.00);
 		Produto p11 = new Produto(null, "Shampoo", 90.00);
 		
+		Estoque estq = new Estoque(null, p1, 5, "CX", new Date());
+		
+		p1.setEstoque(estq);
+		
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2, p4));
 		cat3.getProdutos().addAll(Arrays.asList(p5, p6));
@@ -104,6 +112,7 @@ public class PdvEmporioApplication implements CommandLineRunner {
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5,p6,p7,p9,p9,p10,p11));
+		estoqueRepository.saveAll(Arrays.asList(estq));
 		
 		Estado est1 = new Estado(null,"Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");

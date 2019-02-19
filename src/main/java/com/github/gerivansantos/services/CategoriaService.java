@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,7 @@ public class CategoriaService {
 	}
 
 	public List<Categoria> findAll() {		
-		return repo.findAll();
+		return repo.findAll(new Sort(Sort.Direction.ASC, "nome"));
 	}
 	
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
