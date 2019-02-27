@@ -21,14 +21,19 @@ import com.github.gerivansantos.dto.CategoriaDTO;
 import com.github.gerivansantos.models.Categoria;
 import com.github.gerivansantos.services.CategoriaService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 
 @RestController
 @RequestMapping(value = "/categorias")
+@Api(value= "Categoria", description = "Categoria")
 public class CategoriaController {
 	
 	@Autowired
 	private CategoriaService service;
 	
+	@ApiOperation(value = "Buscar categoria por id")
 	@RequestMapping(value = "/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);
