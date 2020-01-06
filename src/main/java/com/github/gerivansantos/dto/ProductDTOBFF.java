@@ -3,18 +3,18 @@ package com.github.gerivansantos.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class ProdutoDTOBFF implements Serializable {
+public class ProductDTOBFF implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Long total_count;
-    private List<ProdutoDTO> items;
+    private List<ProductDTO> items;
 
 
-    public ProdutoDTOBFF() {
+    public ProductDTOBFF() {
 
     }
 
-    public ProdutoDTOBFF(Long total_count, List<ProdutoDTO> items) {
+    public ProductDTOBFF(Long total_count, List<ProductDTO> items) {
         this.total_count = total_count;
         this.items = items;
     }
@@ -27,11 +27,11 @@ public class ProdutoDTOBFF implements Serializable {
         this.total_count = total_count;
     }
 
-    public List<ProdutoDTO> getItems() {
+    public List<ProductDTO> getItems() {
         return items;
     }
 
-    public void setItems(List<ProdutoDTO> items) {
+    public void setItems(List<ProductDTO> items) {
         this.items = items;
     }
 }

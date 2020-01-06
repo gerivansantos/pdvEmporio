@@ -22,7 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Produto implements Serializable {
+public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,23 +42,23 @@ public class Produto implements Serializable {
     @JsonIgnore
     @ManyToMany
     @JoinTable(name = "PRODUTO_CATEGORIA",
-            joinColumns = @JoinColumn(name = "produto_id"),
+            joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
     private List<Categoria> categories = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "id.produto")
+    @OneToMany(mappedBy = "id.product")
     private Set<ItemPedido> itens = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "produto")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product")
     private Estoque estoque;
 
-    public Produto() {
+    public Product() {
 
     }
 
-    public Produto(Integer id, String name, String description, Double price, Date registrationDate, Date last_update) {
+    public Product(Integer id, String name, String description, Double price, Date registrationDate, Date last_update) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -67,7 +67,7 @@ public class Produto implements Serializable {
         this.last_update = last_update;
     }
 
-    public Produto(Integer id, String name, String description, Double price) {
+    public Product(Integer id, String name, String description, Double price) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -171,7 +171,7 @@ public class Produto implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Produto other = (Produto) obj;
+        Product other = (Product) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

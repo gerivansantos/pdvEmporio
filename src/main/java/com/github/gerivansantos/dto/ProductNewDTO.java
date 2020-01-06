@@ -1,10 +1,10 @@
 package com.github.gerivansantos.dto;
 
-import com.github.gerivansantos.models.Produto;
+import com.github.gerivansantos.models.Product;
 
 import java.io.Serializable;
 
-public class ProdutoNewDTO implements Serializable {
+public class ProductNewDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,11 +21,11 @@ public class ProdutoNewDTO implements Serializable {
     //@NotEmpty(message="Preenchimento Obrigatório")
     private String description;
 
-    public ProdutoNewDTO() {
+    public ProductNewDTO() {
 
     }
 
-    public ProdutoNewDTO(Produto obj) {
+    public ProductNewDTO(Product obj) {
         name = obj.getName();
         price = obj.getPrice();
         amount = (obj.getEstoque() == null) ? 0 : obj.getEstoque().getQuantidade();

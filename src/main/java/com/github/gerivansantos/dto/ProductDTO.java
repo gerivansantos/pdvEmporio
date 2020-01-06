@@ -1,10 +1,10 @@
 package com.github.gerivansantos.dto;
 
-import com.github.gerivansantos.models.Produto;
+import com.github.gerivansantos.models.Product;
 
 import java.io.Serializable;
 
-public class ProdutoDTO implements Serializable {
+public class ProductDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer id;
@@ -13,11 +13,11 @@ public class ProdutoDTO implements Serializable {
     private Double price;
     private float amount;
 
-    public ProdutoDTO() {
+    public ProductDTO() {
 
     }
 
-    public ProdutoDTO(Produto obj) {
+    public ProductDTO(Product obj) {
         id = obj.getId();
         name = obj.getName();
         price = obj.getPrice();

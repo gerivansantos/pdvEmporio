@@ -1,7 +1,7 @@
 package com.github.gerivansantos.repositories;
 
 import com.github.gerivansantos.models.Categoria;
-import com.github.gerivansantos.models.Produto;
+import com.github.gerivansantos.models.Product;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Transactional(readOnly = true)
-    @Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categories cat WHERE obj.name LIKE %:name% AND cat IN :categories ")
-    Page<Produto> search(@Param("name") String name, @Param("categories") List<Categoria> categories, Pageable pageRequest);
+    @Query("SELECT DISTINCT obj FROM Product obj INNER JOIN obj.categories cat WHERE obj.name LIKE %:name% AND cat IN :categories ")
+    Page<Product> search(@Param("name") String name, @Param("categories") List<Categoria> categories, Pageable pageRequest);
 
     //Page<Produto> findDistinctByNomeContainingAndCategoriasIn(String nome, List<Categoria> categorias, Pageable pageRequest);
 
     @Transactional(readOnly = true)
-    List<Produto> findAllByOrderByNameAsc();
+    List<Product> findAllByOrderByNameAsc();
 
 
 }

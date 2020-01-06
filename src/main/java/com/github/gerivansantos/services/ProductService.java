@@ -1,13 +1,13 @@
 package com.github.gerivansantos.services;
 
-import com.github.gerivansantos.dto.ProdutoDTO;
-import com.github.gerivansantos.dto.ProdutoNewDTO;
+import com.github.gerivansantos.dto.ProductDTO;
+import com.github.gerivansantos.dto.ProductNewDTO;
 import com.github.gerivansantos.models.Categoria;
 import com.github.gerivansantos.models.Estoque;
-import com.github.gerivansantos.models.Produto;
+import com.github.gerivansantos.models.Product;
 import com.github.gerivansantos.repositories.CategoriaRepository;
 import com.github.gerivansantos.repositories.EstoqueRepository;
-import com.github.gerivansantos.repositories.ProdutoRepository;
+import com.github.gerivansantos.repositories.ProductRepository;
 import com.github.gerivansantos.services.exception.DataIntegrityException;
 import com.github.gerivansantos.services.exception.ObjectNotFoundException;
 
@@ -27,10 +27,10 @@ import javax.validation.Valid;
 
 
 @Service
-public class ProdutoService {
+public class ProductService {
 
     @Autowired
-    private ProdutoRepository repo;
+    private ProductRepository repo;
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -38,44 +38,44 @@ public class ProdutoService {
     @Autowired
     private EstoqueRepository estoqueRepository;
 
-    public Produto find(Integer id) {
-        Optional<Produto> obj = repo.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Produto.class.getName()));
+    public Product find(Integer id) {
+        Optional<Product> obj = repo.findById(id);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Product.class.getName()));
     }
 
     @Transactional
-    public Produto insert(Produto obj) {
+    public Product insert(Product obj) {
         obj.setId(null);
         obj = repo.save(obj);
         estoqueRepository.save(obj.getEstoque());
         return obj;
     }
 
-    public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
+    public Page<Product> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
         List<Categoria> categorias = categoriaRepository.findAllById(ids);
         return repo.search(nome, categorias, pageRequest);
     }
 
-    public List<Produto> findAll() {
+    public List<Product> findAll() {
         return repo.findAllByOrderByNameAsc();
     }
 
-    public Produto fromDTO(@Valid ProdutoNewDTO objDTO) {
-        Produto produto = new Produto(null, objDTO.getName(), objDTO.getDescription(), objDTO.getPrice());
-        Estoque estoque = new Estoque(null, produto, objDTO.getAmount(), new Date());
+    public Product fromDTO(@Valid ProductNewDTO objDTO) {
+        Product product = new Product(null, objDTO.getName(), objDTO.getDescription(), objDTO.getPrice());
+        Estoque estoque = new Estoque(null, product, objDTO.getAmount(), new Date());
 
-        produto.setEstoque(estoque);
+        product.setEstoque(estoque);
 
-        return produto;
+        return product;
     }
 
-    public Produto fromDTO(@Valid ProdutoDTO objDTO) {
-        return new Produto(null, objDTO.getName(), objDTO.getDescription(), objDTO.getPrice());
+    public Product fromDTO(@Valid ProductDTO objDTO) {
+        return new Product(null, objDTO.getName(), objDTO.getDescription(), objDTO.getPrice());
     }
 
     public void delete(Integer id) {
-        Produto p = find(id);
+        Product p = find(id);
         try {
             if (p.getEstoque().getQuantidade() != 0) {
                 throw new DataIntegrityException("Não é possível excluir o produto porque há estoque relacionado");
@@ -88,13 +88,13 @@ public class ProdutoService {
 
     }
 
-    public Produto update(Produto obj) {
-        Produto newObj = find(obj.getId());
+    public Product update(Product obj) {
+        Product newObj = find(obj.getId());
         updateData(newObj, obj);
         return repo.save(newObj);
     }
 
-    private void updateData(Produto newObj, Produto obj) {
+    private void updateData(Product newObj, Product obj) {
         newObj.setName(obj.getName());
         newObj.setDescription(obj.getDescription());
         newObj.setPrice(obj.getPrice());

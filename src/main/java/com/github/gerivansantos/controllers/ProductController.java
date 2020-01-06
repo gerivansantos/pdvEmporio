@@ -1,11 +1,11 @@
 package com.github.gerivansantos.controllers;
 
 import com.github.gerivansantos.controllers.utils.URL;
-import com.github.gerivansantos.dto.ProdutoDTO;
-import com.github.gerivansantos.dto.ProdutoDTOBFF;
-import com.github.gerivansantos.dto.ProdutoNewDTO;
-import com.github.gerivansantos.models.Produto;
-import com.github.gerivansantos.services.ProdutoService;
+import com.github.gerivansantos.dto.ProductDTO;
+import com.github.gerivansantos.dto.ProductDTOBFF;
+import com.github.gerivansantos.dto.ProductNewDTO;
+import com.github.gerivansantos.models.Product;
+import com.github.gerivansantos.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,27 +26,27 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/products")
-public class ProdutoController {
+public class ProductController {
 
     @Autowired
-    private ProdutoService service;
+    private ProductService service;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Produto> find(@PathVariable Integer id) {
-        Produto obj = service.find(id);
+    public ResponseEntity<Product> find(@PathVariable Integer id) {
+        Product obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<ProdutoDTOBFF> findAll() {
-        List<Produto> list = service.findAll();
-        ProdutoDTOBFF listDto = new ProdutoDTOBFF((long) list.size(), list.stream().map(obj -> new ProdutoDTO(obj)).collect(Collectors.toList()));
-        //List<ProdutoDTO> listDto = list.stream().map(obj -> new ProdutoDTO(obj)).collect(Collectors.toList());
+    public ResponseEntity<ProductDTOBFF> findAll() {
+        List<Product> list = service.findAll();
+        ProductDTOBFF listDto = new ProductDTOBFF((long) list.size(), list.stream().map(obj -> new ProductDTO(obj)).collect(Collectors.toList()));
+        //List<ProductDTO> listDto = list.stream().map(obj -> new ProductDTO(obj)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public ResponseEntity<Page<ProdutoDTO>> findPage(@RequestParam(value = "nome", defaultValue = "") String nome,
+    public ResponseEntity<Page<ProductDTO>> findPage(@RequestParam(value = "nome", defaultValue = "") String nome,
                                                      @RequestParam(value = "categorias", defaultValue = "") String categorias,
                                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
                                                      @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -54,22 +54,22 @@ public class ProdutoController {
                                                      @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
         String nomeDecoded = URL.decodeParam(nome);
         List<Integer> ids = URL.decodeStringList(categorias);
-        Page<Produto> list = service.search(nomeDecoded, ids, page, linesPerPage, orderBy, direction);
-        Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
+        Page<Product> list = service.search(nomeDecoded, ids, page, linesPerPage, orderBy, direction);
+        Page<ProductDTO> listDto = list.map(obj -> new ProductDTO(obj));
         return ResponseEntity.ok().body(listDto);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody ProdutoNewDTO objDTO) {
-        Produto obj = service.fromDTO(objDTO);
+    public ResponseEntity<Void> insert(@Valid @RequestBody ProductNewDTO objDTO) {
+        Product obj = service.fromDTO(objDTO);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Valid @RequestBody ProdutoNewDTO objDTO, @PathVariable Integer id) {
-        Produto obj = service.fromDTO(objDTO);
+    public ResponseEntity<Void> update(@Valid @RequestBody ProductNewDTO objDTO, @PathVariable Integer id) {
+        Product obj = service.fromDTO(objDTO);
         obj.setId(id);
         obj = service.update(obj);
         return ResponseEntity.noContent().build();
