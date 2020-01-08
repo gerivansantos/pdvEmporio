@@ -5,13 +5,13 @@ import com.github.gerivansantos.models.Cidade;
 import com.github.gerivansantos.models.Cliente;
 import com.github.gerivansantos.models.Endereco;
 import com.github.gerivansantos.models.Estado;
-import com.github.gerivansantos.models.Estoque;
 import com.github.gerivansantos.models.ItemPedido;
 import com.github.gerivansantos.models.Pagamento;
 import com.github.gerivansantos.models.PagamentoComBoleto;
 import com.github.gerivansantos.models.PagamentoComCartao;
 import com.github.gerivansantos.models.Pedido;
 import com.github.gerivansantos.models.Product;
+import com.github.gerivansantos.models.Stock;
 import com.github.gerivansantos.models.enums.EstadoPagamento;
 import com.github.gerivansantos.models.enums.TipoCliente;
 import com.github.gerivansantos.repositories.CategoriaRepository;
@@ -19,11 +19,11 @@ import com.github.gerivansantos.repositories.CidadeRepository;
 import com.github.gerivansantos.repositories.ClienteRepository;
 import com.github.gerivansantos.repositories.EnderecoRepository;
 import com.github.gerivansantos.repositories.EstadoRepository;
-import com.github.gerivansantos.repositories.EstoqueRepository;
 import com.github.gerivansantos.repositories.ItemPedidoRepository;
 import com.github.gerivansantos.repositories.PagamentoRepository;
 import com.github.gerivansantos.repositories.PedidoRepository;
 import com.github.gerivansantos.repositories.ProductRepository;
+import com.github.gerivansantos.repositories.StockRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -56,7 +56,7 @@ public class PdvEmporioApplication implements CommandLineRunner {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
     @Autowired
-    private EstoqueRepository estoqueRepository;
+    private StockRepository stockRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(PdvEmporioApplication.class, args);
@@ -85,9 +85,9 @@ public class PdvEmporioApplication implements CommandLineRunner {
         Product p10 = new Product(null, "Pendente", "", 180.00, new Date(), new Date());
         Product p11 = new Product(null, "Shampoo", "", 90.00, new Date(), new Date());
 
-        Estoque estq = new Estoque(null, p1, 5, new Date());
+        Stock estq = new Stock(null, p1, 5, new Date());
 
-        p1.setEstoque(estq);
+        p1.setStock(estq);
 
         cat1.getProducts().addAll(Arrays.asList(p1, p2, p3));
         cat2.getProducts().addAll(Arrays.asList(p2, p4));
@@ -112,7 +112,7 @@ public class PdvEmporioApplication implements CommandLineRunner {
 
         categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p9, p9, p10, p11));
-        estoqueRepository.saveAll(Arrays.asList(estq));
+        stockRepository.saveAll(Arrays.asList(estq));
 
         Estado est1 = new Estado(null, "Minas Gerais");
         Estado est2 = new Estado(null, "São Paulo");

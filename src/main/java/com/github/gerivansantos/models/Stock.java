@@ -15,7 +15,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Estoque implements Serializable {
+public class Stock implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,20 +29,20 @@ public class Estoque implements Serializable {
     @MapsId
     private Product product;
 
-    private float quantidade = 0;
+    private float amount = 0;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private Date dataAtualizacao = new Date();
+    private Date last_update = new Date();
 
-    public Estoque() {
+    public Stock() {
 
     }
 
-    public Estoque(Integer id, Product product, float quantidade, Date dataAtualizacao) {
+    public Stock(Integer id, Product product, float amout, Date last_update) {
         super();
         this.id = id;
         this.product = product;
-        this.quantidade = quantidade;
-        this.dataAtualizacao = dataAtualizacao;
+        this.amount = amount;
+        this.last_update = last_update;
     }
 
 
@@ -62,20 +62,20 @@ public class Estoque implements Serializable {
         this.product = product;
     }
 
-    public float getQuantidade() {
-        return quantidade;
+    public float getAmount() {
+        return amount;
     }
 
-    public void setQuantidade(float quantidade) {
-        this.quantidade = quantidade;
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 
-    public Date getDataAtualizacao() {
-        return dataAtualizacao;
+    public Date getLast_update() {
+        return last_update;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
+    public void setLast_update(Date last_update) {
+        this.last_update = last_update;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class Estoque implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Estoque other = (Estoque) obj;
+        Stock other = (Stock) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

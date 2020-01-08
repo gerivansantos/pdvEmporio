@@ -3,11 +3,11 @@ package com.github.gerivansantos.services;
 import com.github.gerivansantos.dto.ProductDTO;
 import com.github.gerivansantos.dto.ProductNewDTO;
 import com.github.gerivansantos.models.Categoria;
-import com.github.gerivansantos.models.Estoque;
 import com.github.gerivansantos.models.Product;
+import com.github.gerivansantos.models.Stock;
 import com.github.gerivansantos.repositories.CategoriaRepository;
-import com.github.gerivansantos.repositories.EstoqueRepository;
 import com.github.gerivansantos.repositories.ProductRepository;
+import com.github.gerivansantos.repositories.StockRepository;
 import com.github.gerivansantos.services.exception.DataIntegrityException;
 import com.github.gerivansantos.services.exception.ObjectNotFoundException;
 
@@ -36,7 +36,7 @@ public class ProductService {
     private CategoriaRepository categoriaRepository;
 
     @Autowired
-    private EstoqueRepository estoqueRepository;
+    private StockRepository stockRepository;
 
     public Product find(Integer id) {
         Optional<Product> obj = repo.findById(id);
@@ -47,7 +47,7 @@ public class ProductService {
     public Product insert(Product obj) {
         obj.setId(null);
         obj = repo.save(obj);
-        estoqueRepository.save(obj.getEstoque());
+        stockRepository.save(obj.getStock());
         return obj;
     }
 
@@ -63,9 +63,9 @@ public class ProductService {
 
     public Product fromDTO(@Valid ProductNewDTO objDTO) {
         Product product = new Product(null, objDTO.getName(), objDTO.getDescription(), objDTO.getPrice());
-        Estoque estoque = new Estoque(null, product, objDTO.getAmount(), new Date());
+        Stock stock = new Stock(null, product, objDTO.getAmount(), new Date());
 
-        product.setEstoque(estoque);
+        product.setStock(stock);
 
         return product;
     }
@@ -77,7 +77,7 @@ public class ProductService {
     public void delete(Integer id) {
         Product p = find(id);
         try {
-            if (p.getEstoque().getQuantidade() != 0) {
+            if (p.getStock().getAmount() != 0) {
                 throw new DataIntegrityException("Não é possível excluir o produto porque há estoque relacionado");
             } else {
                 repo.deleteById(id);
@@ -98,7 +98,7 @@ public class ProductService {
         newObj.setName(obj.getName());
         newObj.setDescription(obj.getDescription());
         newObj.setPrice(obj.getPrice());
-        newObj.getEstoque().setQuantidade(obj.getEstoque().getQuantidade());
+        newObj.getStock().setAmount(obj.getStock().getAmount());
     }
 
 

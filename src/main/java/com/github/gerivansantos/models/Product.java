@@ -52,7 +52,7 @@ public class Product implements Serializable {
     private Set<ItemPedido> itens = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "product")
-    private Estoque estoque;
+    private Stock stock;
 
     public Product() {
 
@@ -147,12 +147,12 @@ public class Product implements Serializable {
         this.itens = itens;
     }
 
-    public Estoque getEstoque() {
-        return estoque;
+    public Stock getStock() {
+        return stock;
     }
 
-    public void setEstoque(Estoque estoque) {
-        this.estoque = estoque;
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 
     @Override

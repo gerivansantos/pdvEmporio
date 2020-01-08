@@ -1,10 +1,10 @@
 package com.github.gerivansantos.services;
 
-import com.github.gerivansantos.dto.EstoqueDTO;
-import com.github.gerivansantos.models.Estoque;
+import com.github.gerivansantos.dto.StockDTO;
 import com.github.gerivansantos.models.Product;
-import com.github.gerivansantos.repositories.EstoqueRepository;
+import com.github.gerivansantos.models.Stock;
 import com.github.gerivansantos.repositories.ProductRepository;
+import com.github.gerivansantos.repositories.StockRepository;
 import com.github.gerivansantos.services.exception.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,35 +16,35 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 @Service
-public class EstoqueService {
+public class StockService {
     @Autowired
-    private EstoqueRepository repo;
+    private StockRepository repo;
 
     @Autowired
     private ProductRepository productRepository;
 
-    public Estoque find(Integer id) {
-        Optional<Estoque> obj = repo.findById(id);
+    public Stock find(Integer id) {
+        Optional<Stock> obj = repo.findById(id);
         //repo.findByProduto_id(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Estoque.class.getName()));
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Stock.class.getName()));
     }
 
-    public Estoque fromDTO(@Valid EstoqueDTO objDTO) {
-        Optional<Product> p = productRepository.findById(objDTO.getIdProduto());
+    public Stock fromDTO(@Valid StockDTO objDTO) {
+        Optional<Product> p = productRepository.findById(objDTO.getIdProduct());
         Product product = new Product(p.get().getId(), p.get().getName(), p.get().getDescription(), p.get().getPrice(), p.get().getRegistrationDate(), p.get().getLast_update());
-        return new Estoque(objDTO.getIdProduto(), product, objDTO.getQuantidade(), new Date());
+        return new Stock(objDTO.getIdProduct(), product, objDTO.getAmount(), new Date());
     }
 
-    public Estoque update(Estoque obj) {
-        Estoque newObj = find(obj.getId());
+    public Stock update(Stock obj) {
+        Stock newObj = find(obj.getId());
         updateData(newObj, obj);
         return repo.save(newObj);
     }
 
-    private void updateData(Estoque newObj, Estoque obj) {
+    private void updateData(Stock newObj, Stock obj) {
         newObj.setId(obj.getId());
         //newObj.setProduto(obj.getProduto());
-        newObj.setQuantidade(obj.getQuantidade());
+        newObj.setAmount(obj.getAmount());
     }
 
 

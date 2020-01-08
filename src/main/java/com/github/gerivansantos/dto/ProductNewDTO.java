@@ -28,7 +28,7 @@ public class ProductNewDTO implements Serializable {
     public ProductNewDTO(Product obj) {
         name = obj.getName();
         price = obj.getPrice();
-        amount = (obj.getEstoque() == null) ? 0 : obj.getEstoque().getQuantidade();
+        amount = (obj.getStock() == null) ? 0 : obj.getStock().getAmount();
         description = obj.getDescription();
     }
 

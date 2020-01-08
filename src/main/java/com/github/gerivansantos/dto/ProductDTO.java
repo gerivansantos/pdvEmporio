@@ -21,7 +21,7 @@ public class ProductDTO implements Serializable {
         id = obj.getId();
         name = obj.getName();
         price = obj.getPrice();
-        amount = (obj.getEstoque() == null) ? 0 : obj.getEstoque().getQuantidade();
+        amount = (obj.getStock() == null) ? 0 : obj.getStock().getAmount();
     }
 
     public Integer getId() {
